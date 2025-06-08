@@ -1,2 +1,1 @@
-# paymeinmorz
-I simple payment URI/QR code generator for XMR and ZEC 
+A simple payment URI/QR code generator for XMR and ZEC 
