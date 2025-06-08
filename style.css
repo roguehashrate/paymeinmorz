@@ -76,6 +76,8 @@ button:hover {
   margin-top: 20px;
   text-align: center;
   word-break: break-all;
+  text-decoration: none;
+  color: white;
 }
 
 canvas {

@@ -46,3 +46,24 @@ document.getElementById("copy-button").addEventListener("click", function () {
     alert("Copied to clipboard!");
   });
 });
+
+const fiatInput = document.getElementById("fiat");
+const amountInput = document.getElementById("amount");
+
+fiatInput.addEventListener("input", async function () {
+  const fiatValue = parseFloat(fiatInput.value);
+  const coin = document.getElementById("coin").value;
+
+  if (isNaN(fiatValue) || fiatValue <= 0) return;
+
+  try {
+    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=monero,zcash&vs_currencies=usd");
+    const data = await res.json();
+    const price = coin === "monero" ? data.monero.usd : data.zcash.usd;
+
+    const cryptoAmount = (fiatValue / price).toFixed(6); // show up to 6 decimals
+    amountInput.value = cryptoAmount;
+  } catch (err) {
+    console.error("Failed to fetch prices:", err);
+  }
+});
