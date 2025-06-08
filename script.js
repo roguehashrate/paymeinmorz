@@ -33,11 +33,28 @@ document.getElementById("payment-form").addEventListener("submit", function (e) 
   const qrContainer = document.getElementById("qrcode");
   qrContainer.innerHTML = "";
 
-  new QRious({
-    element: qrContainer.appendChild(document.createElement("canvas")),
-    value: uri,
-    size: 200
+  const logoImage = coin === "monero" ? "assets/xmr-logo.png" : "assets/zec-logo.png";
+
+  const qrCode = new QRCodeStyling({
+    width: 200,
+    height: 200,
+    data: uri,
+    image: logoImage,
+    dotsOptions: {
+      color: "#f0f0f0",
+      type: "rounded"
+    },
+    backgroundOptions: {
+      color: "#1e1e1e",
+    },
+    imageOptions: {
+      crossOrigin: "anonymous",
+      margin: 4
+    }
   });
+
+  qrCode.append(qrContainer);
+
 });
 
 document.getElementById("copy-button").addEventListener("click", function () {
@@ -61,7 +78,7 @@ fiatInput.addEventListener("input", async function () {
     const data = await res.json();
     const price = coin === "monero" ? data.monero.usd : data.zcash.usd;
 
-    const cryptoAmount = (fiatValue / price).toFixed(6); // show up to 6 decimals
+    const cryptoAmount = (fiatValue / price).toFixed(6);
     amountInput.value = cryptoAmount;
   } catch (err) {
     console.error("Failed to fetch prices:", err);
